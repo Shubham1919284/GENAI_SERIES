@@ -1,0 +1,12 @@
+langchain
+langchain-openai
+python-dotenv
+langchain-google-genai
+langchain-huggingface
+langchain-anthropic
+langchain-groq
+requests
+streamlit
+
+#streamlit run 1_qna_bot.py
+# streamlit run apps/1_qna_bot_advance.py

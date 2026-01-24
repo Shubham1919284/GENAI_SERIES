@@ -1,0 +1,21 @@
+
+# Environment Variables
+.env
+.env.local
+notebooks/.env
+
+# Virtual Environment
+env/
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
