@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura | Agentic Travel Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES (The Brand Colors) --- */
+        :root {
+            --primary-color: #0a1128; /* Deep Midnight Blue */
+            --accent-color: #FF6B6B; /* Warm Coral */
+            --text-light: #ffffff;
+            --text-muted: #e0e0e0;
+            --font-header: 'Montserrat', sans-serif;
+            --font-body: 'Lora', serif;
+        }
+
+        /* --- GLOBAL RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-light);
+            background-color: var(--primary-color);
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER NAVIGATION --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: absolute; /* Sits on top of the hero image */
+            width: 100%;
+            z-index: 10;
+            background: linear-gradient(to bottom, rgba(10, 17, 40, 0.8), transparent);
+        }
+
+        .logo {
+            font-family: var(--font-header);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Simple abstract icon for the logo */
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+        }
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-family: var(--font-header);
+            font-weight: 500;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-cta {
+            background-color: var(--accent-color);
+            padding: 10px 25px;
+            border-radius: 50px;
+            color: white !important;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            /* Background Image served via Unsplash based on keywords */
+            background-image: url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1968&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Dark Overlay to make text readable over image */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 17, 40, 0.9), rgba(10, 17, 40, 0.4));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-family: var(--font-header);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        /* Accent color for key words in the headline */
+        .highlight {
+            color: var(--accent-color);
+        }
+
+        .subhead {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+
+        /* --- THE AGENTIC INPUT FIELD --- */
+        .input-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .agent-input {
+            width: 100%;
+            padding: 25px 30px;
+            padding-right: 70px; /* Space for the button */
+            font-size: 1.1rem;
+            font-family: var(--font-body);
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        /* The glowing effect when focused */
+        .agent-input:focus {
+            background: white;
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .input-submit-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .input-submit-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* --- VIBE STARTERS --- */
+        .vibe-starters {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .vibe-pill {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-family: var(--font-header);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .vibe-pill:hover {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        /* --- RESPONSIVE TWEAKS --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+            nav a:not(.nav-cta) {
+                display: none; /* Hide standard links on mobile for simplicity */
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .subhead {
+                font-size: 1.1rem;
+            }
+            .agent-input {
+                padding: 20px;
+                padding-right: 60px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            AURA AI
+        </div>
+        <nav>
+            <a href="#">How it Works</a>
+            <a href="#">Saved Trips</a>
+            <a href="#" class="nav-cta">Sign In</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Experience the world, <span class="highlight">intelligently designed</span> for you.</h1>
+            <p class="subhead">Our AI agent crafts hyper-personalized itineraries in seconds, handling every detail so you can just travel.</p>
+            
+            <div class="input-container">
+                <input type="text" class="agent-input" placeholder="Tell me your dream... (e.g., 'A 10-day foodie honeymoon in Italy in September')">
+                <button class="input-submit-btn">
+                   &#10140;
+                </button>
+            </div>
+
+            <div class="vibe-starters">
+                <div class="vibe-pill">🌴 Relaxation & Luxury</div>
+                <div class="vibe-pill">🏛️ Culture & History</div>
+                <div class="vibe-pill">🏔️ Adventure & Nature</div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

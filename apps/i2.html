@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINARY | Intelligent Travel OS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES (Clean Scandinavian Palette) --- */
+        :root {
+            --bg-app: #f4f6f8; /* Very soft light gray background */
+            --bg-panel: #ffffff; /* Pure white panels */
+            --text-primary: #1a202c; /* Dark charcoal, not dead black */
+            --text-secondary: #718096; /* Soft gray secondary text */
+            --accent-blue: #0052cc; /* Deep professional Cobalt blue */
+            --accent-blue-soft: #e6f0ff; /* Very light blue for backgrounds */
+            --success-green: #38a169;
+            --border-light: #e2e8f0;
+            --sidebar-width: 250px;
+            --font-ui: 'Inter', sans-serif;
+            --font-header: 'Outfit', sans-serif;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05); /* Very diffused shadow */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-app);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* === UTILITY CLASSES === */
+        .panel-card {
+            background: var(--bg-panel);
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+        }
+        .flex-center { display: flex; align-items: center; }
+
+        /* === SIDEBAR NAVIGATION === */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border-light);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .brand {
+            font-family: var(--font-header);
+            font-weight: 700; font-size: 1.3rem; letter-spacing: 0.5px;
+            margin-bottom: 50px; display: flex; align-items: center;
+            color: var(--accent-blue);
+        }
+        .brand-icon {
+            width: 28px; height: 28px; background: var(--accent-blue);
+            border-radius: 8px; margin-right: 12px;
+            position: relative;
+        }
+        /* Subtle white L shape inside brand icon */
+        .brand-icon::after {
+             content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+             width: 12px; height: 12px; border-left: 3px solid white; border-bottom: 3px solid white;
+        }
+
+        .menu-label {
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 1px;
+            color: var(--text-secondary); text-transform: uppercase;
+            margin-bottom: 15px; margin-left: 15px;
+        }
+
+        .menu-item {
+            display: flex; align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            background: var(--bg-app);
+            color: var(--accent-blue);
+        }
+
+        .menu-item.active {
+            background: var(--accent-blue-soft);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+        .menu-icon { margin-right: 12px; font-size: 1.1rem; }
+
+        /* === MAIN APPLICATION AREA === */
+        .app-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* APP HEADER */
+        .app-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 35px;
+        }
+        .header-title h2 { font-family: var(--font-header); font-size: 1.8rem; color: var(--text-primary); }
+        .header-date { color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px; }
+
+        .user-actions { display: flex; align-items: center; gap: 20px; }
+        .icon-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--bg-panel);
+            border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+            box-shadow: var(--shadow-soft);
+        }
+        .icon-btn:hover { color: var(--accent-blue); border-color: var(--accent-blue-soft); }
+        .avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-panel); box-shadow: var(--shadow-soft);}
+
+
+        /* DASHBOARD GRID LAYOUT (Retained the structure) */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 7fr 3fr; /* Slightly wider left column */
+            gap: 30px;
+            /* height: 100%; Remove fixed height to allow scrolling if needed */
+        }
+
+        /* --- WIDGET 1: THE OMNI-COMMAND CENTER --- */
+        .command-widget {
+            grid-column: 1 / 3;
+            padding: 45px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        }
+        
+        .welcome-text h1 { font-family: var(--font-header); font-size: 2.2rem; margin-bottom: 10px; }
+        .welcome-text p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 35px; }
+
+        .omni-bar-container { position: relative; max-width: 800px; }
+        .omni-input {
+            width: 100%;
+            background: var(--bg-panel);
+            border: 2px solid var(--border-light);
+            padding: 22px 30px; padding-right: 160px;
+            font-family: var(--font-ui); color: var(--text-primary);
+            font-size: 1.2rem; border-radius: 14px; outline: none;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s;
+        }
+        .omni-input:focus { border-color: var(--accent-blue); box-shadow: 0 4px 25px rgba(0, 82, 204, 0.15); }
+        .omni-input::placeholder { color: #a0aec0; }
+
+        .input-actions {
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            display: flex; gap: 10px;
+        }
+        .action-pill {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 14px; background: var(--bg-app); border-radius: 8px;
+            font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .action-pill:hover { background: var(--accent-blue-soft); color: var(--accent-blue); }
+
+        .ai-status { margin-top: 20px; display: flex; align-items: center; font-weight: 500; color: var(--accent-blue); font-size: 0.95rem; }
+        .status-pulse {
+            width: 10px; height: 10px; background: var(--accent-blue); border-radius: 50%; margin-right: 12px;
+            box-shadow: 0 0 0 0 rgba(0, 82, 204, 0.4); animation: cleanPulse 2s infinite;
+        }
+        @keyframes cleanPulse { 0% { box-shadow: 0 0 0 0 rgba(0, 82, 204, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(0, 82, 204, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 82, 204, 0); } }
+
+
+        /* --- WIDGET 2: ACTIVE DRAFTS --- */
+        .drafts-widget { padding: 25px; }
+        .widget-title { font-family: var(--font-header); font-size: 1.1rem; font-weight: 700; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .count-badge { background: var(--accent-blue-soft); color: var(--accent-blue); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; }
+
+        .trip-card {
+            display: flex; align-items: center; padding: 15px;
+            background: var(--bg-panel); border: 1px solid var(--border-light);
+            border-radius: 12px; margin-bottom: 15px; transition: all 0.2s; cursor: pointer;
+        }
+        .trip-card:hover { border-color: var(--accent-blue); box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+        .trip-img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; margin-right: 15px; }
+        .trip-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+        
+        .progress-container { display: flex; align-items: center; width: 100%; }
+        .progress-track { flex: 1; height: 6px; background: var(--bg-app); border-radius: 3px; margin-right: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent-blue); border-radius: 3px; }
+        .progress-perc { font-size: 0.8rem; font-weight: 600; color: var(--accent-blue); }
+
+
+        /* --- WIDGET 3: GLOBAL INTELLIGENCE --- */
+        .intelligence-widget { padding: 25px; }
+        .data-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid var(--border-light);
+            font-size: 0.9rem;
+        }
+        .data-row:last-child { border-bottom: none; }
+        .data-category { font-weight: 500; display: flex; align-items: center; }
+        .cat-icon { color: var(--text-secondary); margin-right: 10px; font-size: 1.1rem; }
+        
+        .status-badge {
+            padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+        }
+        .badge-green { background: #e6fffa; color: var(--success-green); }
+        .badge-blue { background: var(--accent-blue-soft); color: var(--accent-blue); }
+        .badge-gray { background: var(--bg-app); color: var(--text-secondary); }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon"></div>
+            LUMINARY
+        </div>
+        <div class="menu-label">Main Menu</div>
+        <nav>
+            <a href="#" class="menu-item active">
+                <span class="menu-icon">▣</span> Dashboard
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icon">✈</span> Itineraries
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icon">❖</span> Intelligence
+            </a>
+            <a href="#" class="menu-item">
+                <span class="menu-icon">💬</span> Concierge
+            </a>
+        </nav>
+        <div class="menu-label" style="margin-top: 30px;">System</div>
+        <nav>
+            <a href="#" class="menu-item">
+                <span class="menu-icon">⚙</span> Settings
+            </a>
+        </nav>
+    </aside>
+
+    <main class="app-content">
+        
+        <header class="app-header">
+            <div class="header-title">
+                <h2>Travel Command Center</h2>
+                <div class="header-date">Monday, October 28th • London (GMT+1)</div>
+            </div>
+            <div class="user-actions">
+                <button class="icon-btn">🔔</button>
+                <button class="icon-btn">🔍</button>
+                <img src="https://i.pravatar.cc/100?img=49" alt="Profile" class="avatar">
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <section class="panel-card command-widget">
+                <div class="welcome-text">
+                    <h1>Good morning, Sarah.</h1>
+                    <p>The Luminary engine is active. How can we assist your planning today?</p>
+                </div>
+                
+                <div class="omni-bar-container">
+                    <input type="text" class="omni-input" placeholder="Ask anything... e.g., 'Find luxury villas in Tuscany for September with a private chef.'">
+                    <div class="input-actions">
+                        <div class="action-pill">🎙️ Voice</div>
+                        <div class="action-pill">📎 Attach</div>
+                    </div>
+                </div>
+                <div class="ai-status">
+                    <div class="status-pulse"></div>
+                    AI Agent is monitoring global availability in real-time.
+                </div>
+            </section>
+
+            <section class="panel-card drafts-widget">
+                <div class="widget-title">
+                    Active Drafts
+                    <span class="count-badge">2 Pending</span>
+                </div>
+                
+                <div class="trip-card">
+                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Bali" class="trip-img">
+                    <div style="flex: 1;">
+                        <h3>Bali Wellness Retreat</h3>
+                        <div class="progress-container">
+                            <div class="progress-track"><div class="progress-fill" style="width: 80%"></div></div>
+                            <span class="progress-perc">80%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="trip-card">
+                    <img src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Swiss Alps" class="trip-img">
+                    <div style="flex: 1;">
+                        <h3>Swiss Alps Ski Getaway</h3>
+                        <div class="progress-container">
+                            <div class="progress-track"><div class="progress-fill" style="width: 45%"></div></div>
+                            <span class="progress-perc">45%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel-card intelligence-widget">
+                <div class="widget-title">
+                    Live Signals
+                    <button style="border:none; background:none; color: var(--accent-blue); font-weight:600; cursor:pointer;">View All</button>
+                </div>
+                
+                <div class="data-row">
+                    <div class="data-category"><span class="cat-icon">✈️</span> Flight Logistics</div>
+                    <span class="status-badge badge-green">Stable Routes</span>
+                </div>
+                <div class="data-row">
+                    <div class="data-category"><span class="cat-icon">🛎️</span> Hotel Inventory (Asia)</div>
+                    <span class="status-badge badge-blue">High Demand</span>
+                </div>
+                <div class="data-row">
+                    <div class="data-category"><span class="cat-icon">📅</span> Events (Paris)</div>
+                    <span>Fashion Week approaching</span>
+                </div>
+                <div class="data-row">
+                    <div class="data-category"><span class="cat-icon">🌤️</span> Weather Alert (Caribbean)</div>
+                    <span class="status-badge badge-gray">Monitoring storm front</span>
+                </div>
+             </section>
+
+        </div> </main>
+
+</body>
+</html>

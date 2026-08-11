@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift | Creative Travel AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES (Pastel Palette) --- */
+        :root {
+            --bg-cream: #fcfaf4;
+            --text-dark: #2d3748;
+            --pastel-blue: #aed9e0;
+            --pastel-peach: #f4a261;
+            --pastel-mint: #90be6d;
+            --font-main: 'Quicksand', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- SOFT WATERCOLOR BACKGROUND SHAPES --- */
+        /* Using pseudo-elements and blurs to create dreamy blobs */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        
+        /* Blue blob top left */
+        body::before {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--pastel-blue), transparent 70%);
+            top: -200px; left: -200px;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+        
+        /* Peach blob bottom right */
+        body::after {
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--pastel-peach), transparent 70%);
+            bottom: -250px; right: -100px;
+            animation: float 15s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(10deg); }
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 50px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+        /* A small illustrative icon */
+        .logo img { height: 30px; margin-right: 10px; }
+
+        .nav-btn {
+            padding: 10px 25px;
+            background: white;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            color: var(--pastel-peach);
+        }
+
+        /* --- MAIN HERO CONTENT --- */
+        .hero {
+            height: calc(100vh - 90px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        
+        .highlight-text {
+            background: linear-gradient(120deg, var(--pastel-blue) 0%, var(--pastel-peach) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subhead {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 50px;
+            color: #5a6a85;
+        }
+
+        /* --- THE DREAMY INPUT FIELD --- */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            padding: 10px;
+            border-radius: 60px;
+            box-shadow: 0 20px 60px rgba(174, 217, 224, 0.3); /* Soft blue shadow */
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .input-wrapper:focus-within {
+            transform: scale(1.02);
+            box-shadow: 0 25px 70px rgba(244, 162, 97, 0.3); /* Shadow turns peach on focus */
+        }
+
+        .dream-input {
+            flex: 1;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            font-family: var(--font-main);
+            font-weight: 600;
+            color: var(--text-dark);
+            outline: none;
+            background: transparent;
+        }
+        .dream-input::placeholder { color: #b0b8c4; font-weight: 500; }
+
+        .dream-btn {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            border: none;
+            /* Gradient button */
+            background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-mint));
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s;
+        }
+        .dream-btn:hover { transform: rotate(15deg) scale(1.1); }
+
+        /* --- WHIMSICAL FLOATING ICONS --- */
+        /* Small illustrative elements floating around the input */
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.8;
+            animation: floatIcon 4s ease-in-out infinite alternate;
+        }
+        .icon-1 { top: -40px; left: -30px; color: var(--pastel-peach); animation-delay: 0s; }
+        .icon-2 { bottom: -30px; right: 50px; color: var(--pastel-blue); font-size: 1.5rem; animation-delay: 1s; }
+        .icon-3 { top: -50px; right: 100px; color: var(--pastel-mint); font-size: 1.2rem; animation-delay: 2s; }
+
+        @keyframes floatIcon {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">☁️ Drift.ai</div>
+        <a href="#" class="nav-btn">My Journal</a>
+    </header>
+
+    <main class="hero">
+        <h1>Let's paint your next<br> <span class="highlight-text">great adventure.</span></h1>
+        <p class="subhead">A creative AI partner that turns your wildest travel daydreams into bookable reality.</p>
+
+        <div class="input-wrapper">
+            <div class="floating-icon icon-1">✈️</div>
+            <div class="floating-icon icon-2">🏔️</div>
+            <div class="floating-icon icon-3">✨</div>
+
+            <input type="text" class="dream-input" placeholder="Imagine your perfect trip... (e.g., 'Whimsical treehouse stay in Costa Rica')">
+            <button class="dream-btn">➝</button>
+        </div>
+    </main>
+</body>
+</html>

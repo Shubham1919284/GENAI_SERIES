@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veridian | Intelligent Travel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES (Emerald & Gold Palette) --- */
+        :root {
+            --primary-dark: #022c22; /* Deep Emerald */
+            --accent-gold: #d4af37; /* Rich Metallic Gold */
+            --text-cream: #f8f4e3;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --font-header: 'Playfair Display', serif;
+            --font-ui: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-ui);
+            color: var(--text-cream);
+            background-color: var(--primary-dark);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- HERO BACKGROUND WITH EMERALD OVERLAY --- */
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Lush resort image */
+            background-image: url('https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Gradient from deep emerald to slightly transparent */
+            background: linear-gradient(to bottom, rgba(2, 44, 34, 0.85), rgba(2, 44, 34, 0.6));
+            backdrop-filter: blur(2px);
+            z-index: -1;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 50px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-family: var(--font-header);
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span { color: var(--text-cream); }
+
+        .nav-links a {
+            color: var(--text-cream);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-gold); }
+
+        /* --- MAIN HERO CONTENT --- */
+        .hero-content {
+            height: calc(100vh - 80px); /* Full height minus header */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* New Element: Agent Status Indicator */
+        .agent-status {
+            display: flex;
+            align-items: center;
+            background: var(--glass-bg);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .status-dot {
+            width: 8px; height: 8px;
+            background-color: #10b981; /* Bright green for 'active' */
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        h1 {
+            font-family: var(--font-header);
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        
+        .gold-text { color: var(--accent-gold); font-style: italic; }
+
+        /* --- GLASSMORPHISM INPUT FIELD --- */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 750px;
+            margin-top: 40px;
+        }
+
+        .glass-input {
+            width: 100%;
+            padding: 25px 30px;
+            padding-right: 140px; /* Space for button */
+            font-size: 1.2rem;
+            font-family: var(--font-header);
+            color: var(--text-cream);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-input::placeholder { color: rgba(248, 244, 227, 0.6); }
+
+        .glass-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+            background: rgba(2, 44, 34, 0.6);
+        }
+
+        .plan-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--accent-gold), #bfa030);
+            border: none;
+            border-radius: 8px;
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-family: var(--font-ui);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .plan-btn:hover { transform: translateY(-50%) scale(1.02); }
+
+        /* --- NEW ELEMENT: INTELLIGENCE PREVIEW CARDS --- */
+        /* This adds visual interest below the input so it's not plain */
+        .intelligence-previews {
+            display: flex;
+            gap: 20px;
+            margin-top: 50px;
+            width: 100%;
+            max-width: 850px;
+            justify-content: center;
+        }
+
+        .preview-card {
+            flex: 1;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .preview-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .card-icon { font-size: 1.5rem; margin-bottom: 10px; color: var(--accent-gold); }
+        .card-title { font-weight: 600; font-size: 1rem; margin-bottom: 5px; }
+        .card-desc { font-size: 0.85rem; opacity: 0.8; }
+
+    </style>
+</head>
+<body>
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <header>
+        <div class="logo">VERIDIAN <span>.AI</span></div>
+        <nav class="nav-links">
+            <a href="#">Concierge</a>
+            <a href="#">Membership</a>
+            <a href="#">Sign In</a>
+        </nav>
+    </header>
+
+    <main class="hero-content">
+        <div class="agent-status">
+            <div class="status-dot"></div>
+            Agent Active & Ready for Requests
+        </div>
+
+        <h1>The world's finest journeys, <br> <span class="gold-text">curated by intelligence.</span></h1>
+        
+        <div class="input-wrapper">
+            <input type="text" class="glass-input" placeholder="Where shall we take you? (e.g., 'Private villa in Kyoto during cherry blossom season')">
+            <button class="plan-btn">Ignite Journey</button>
+        </div>
+
+        <div class="intelligence-previews">
+             <div class="preview-card">
+                 <div class="card-icon">✈️</div>
+                 <div class="card-title">Smart Logistics</div>
+                 <div class="card-desc">Real-time flight path analysis for seamless connections.</div>
+             </div>
+             <div class="preview-card">
+                 <div class="card-icon">🗝️</div>
+                 <div class="card-title">Hidden Access</div>
+                 <div class="card-desc">Unlocking off-market villas and exclusive experiences.</div>
+             </div>
+             <div class="preview-card">
+                 <div class="card-icon">🌤️</div>
+                 <div class="card-title">Dynamic Adaptation</div>
+                 <div class="card-desc">Itineraries that shift automatically with weather & mood.</div>
+             </div>
+        </div>
+
+    </main>
+</body>
+</html>
